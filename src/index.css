@@ -108,3 +108,17 @@ a{
 li{
   color: black;
 }
+/* styling the login page */
+
+.log-in-img{
+  width: 50%;
+}
+.logIn{
+  display: flex;
+  padding: 5%;
+  
+}
+.background-img{
+  background-image: url('https://image-tc.galaxy.tf/wijpeg-6rc902e9t312jljywldrat8xl/york-pool-dusk-ok.jpg');
+  background-size: cover;
+}
