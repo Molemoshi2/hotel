@@ -3,6 +3,8 @@ import Home from "./Home"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import LoginAdmin from "./Admin/adminLogin"
 import AdminHome from "./Admin/AdminHome"
+import HotelList from "./hotelList"
+import Accomodation from "./Accomodation"
 
 
 
@@ -22,6 +24,14 @@ function App(){
       {
         path: 'Admin',
         element: <AdminHome/>
+      },
+      {
+        path: 'hotel',
+        element: <HotelList/>
+      },
+      {
+        path: 'details',
+        element:<Accomodation/>
       }
     ]
   )

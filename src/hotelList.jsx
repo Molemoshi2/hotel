@@ -1,40 +1,68 @@
-
+import { collection,getDocs } from "firebase/firestore"
+import { useEffect,useState } from "react"
+import { database } from "./firebase/firebase"
+import NavigationBar from "./NavigationBar"
+import Footer from "./footer"
 function HotelList(){
+        const [hotels, setHotels] = useState([])
+        const getcollection = async ()=>
+                {
+                        try{
+                                const readColletion = await getDocs(collection(database,"Rooms"))
+                                const data = readColletion.docs.map((doc)=>(
+                                        {...doc.data(),id:doc.id}
+                                )
+                                        
+                                        
+                                )
+                                
+                                setHotels([...data])
+                        }
+                        
+                        catch{
+                                console.log("Error")
+                        }
+                }
+
+
+        useEffect(
+                ()=>{
+                        getcollection()
+                },[]
+        )
+        console.log(hotels)
     return(
-        <div className="card-container">
-                <div className="card" style={{width:'18rem'}}>
-                    <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/11474603.jpg?k=e080a498ad66fc1181c360046b494647f787ba4639d4ed4d073d4621a9b2d541&o=&hp=1" alt="" />
-                    <div className="card-body">
-                    <h5 className="card-title">Card title</h5>
-                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" className="btn btn-primary">Go somewhere</a>
-                    </div>
+        <div>
+                <NavigationBar/>
+
+                <div className="card-container">
+                
+                <div className="card-container" style={{display:"flex",gap:"3rem"}}>
+                    {hotels && hotels.map((item,index)=>(
+                            <div  key={index} className="card" style={{width:"18rem"}}>
+                                    <img src={item.data.image_url} alt="picture" />
+                                    <div className="card-body">
+                                    <h5 className="card-title">{item.data.RoomType}</h5>
+                                    <p className="card-text">{item.data.description}</p>
+                                    <p className="card-text">R{item.data.price}</p>
+                                    <a href="#" className="btn btn-primary">Book Now</a>
+                                    <a href="#" className="btn btn-danger">Delete</a>
+                                    </div>
+                            
+                            
+                        
+
+                            </div>
+
+                            
+                    )
+                    )}
+                </div>
+                    
             </div>
-            <div className="card" style={{width:'18rem'}}>
-                    <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/11474603.jpg?k=e080a498ad66fc1181c360046b494647f787ba4639d4ed4d073d4621a9b2d541&o=&hp=1" alt="" />
-                    <div className="card-body">
-                    <h5 className="card-title">Card title</h5>
-                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" className="btn btn-primary">Go somewhere</a>
-                    </div>
-            </div>
-            <div className="card" style={{width:'18rem'}}>
-                    <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/11474603.jpg?k=e080a498ad66fc1181c360046b494647f787ba4639d4ed4d073d4621a9b2d541&o=&hp=1" alt="" />
-                    <div className="card-body">
-                    <h5 className="card-title">Card title</h5>
-                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" className="btn btn-primary">Go somewhere</a>
-                    </div>
-            </div>
-            <div className="card" style={{width:'18rem'}}>
-                    <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/11474603.jpg?k=e080a498ad66fc1181c360046b494647f787ba4639d4ed4d073d4621a9b2d541&o=&hp=1" alt="" />
-                    <div className="card-body">
-                    <h5 className="card-title">Card title</h5>
-                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" className="btn btn-primary">Go somewhere</a>
-                    </div>
-            </div>
+            <Footer/>
         </div>
+        
     )
 }
 export default HotelList
