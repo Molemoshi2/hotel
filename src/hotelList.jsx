@@ -33,7 +33,6 @@ function HotelList(){
         console.log(hotels)
     return(
         <div>
-                <NavigationBar/>
 
                 <div className="card-container">
                 
@@ -60,7 +59,6 @@ function HotelList(){
                 </div>
                     
             </div>
-            <Footer/>
         </div>
         
     )
