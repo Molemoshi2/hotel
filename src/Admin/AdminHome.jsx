@@ -3,7 +3,9 @@ import Footer from "../footer"
 import { database } from "../firebase/firebase"
 import { collection, addDoc } from "firebase/firestore"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 function AdminHome(){
+    const redirect = useNavigate()
     const [data,setData] = useState({RoomType:"",beds:0,adults:0,children:0,availability:"",price:500,description:"",image_url:""})
     const collectionRef = collection(database,'Rooms')
     const handleAddToDatabase = ()=>{
@@ -12,6 +14,7 @@ function AdminHome(){
         }).then(
             ()=>{
                 alert('data added')
+                redirect('/')
             }
         ).catch(
             (error)=>{

@@ -1,42 +1,31 @@
-import { collection,getDocs } from "firebase/firestore"
-import { useEffect,useState } from "react"
-import { database } from "./firebase/firebase"
-import NavigationBar from "./NavigationBar"
-import Footer from "./footer"
+import { useEffect} from "react"
+import { useSelector,useDispatch } from "react-redux"
+import { fetchRooms } from "./Redux/newSlice"
+
+
 function HotelList(){
-        const [hotels, setHotels] = useState([])
-        const getcollection = async ()=>
-                {
-                        try{
-                                const readColletion = await getDocs(collection(database,"Rooms"))
-                                const data = readColletion.docs.map((doc)=>(
-                                        {...doc.data(),id:doc.id}
-                                )
-                                        
-                                        
-                                )
-                                
-                                setHotels([...data])
-                        }
-                        
-                        catch{
-                                console.log("Error")
-                        }
-                }
+        const dispatch = useDispatch()
+        const hotels = useSelector((state)=>state.rooms.rooms)
+        const roomStatus = useSelector((state)=> state.rooms.status)
 
 
-        useEffect(
-                ()=>{
-                        getcollection()
-                },[]
-        )
-        console.log(hotels)
+        useEffect(() => {  
+                if (roomStatus === 'idle') {  
+                         dispatch(fetchRooms());  
+                }  
+                }, 
+                [roomStatus, dispatch]
+        ); 
+        
+
+       
+        
     return(
         <div>
 
                 <div className="card-container">
                 
-                <div className="card-container" style={{display:"flex",gap:"3rem"}}>
+                <div className="card-container align-content-around flex-wrap" style={{display:"flex",justifyContent:'space-between'}}>
                     {hotels && hotels.map((item,index)=>(
                             <div  key={index} className="card" style={{width:"18rem"}}>
                                     <img src={item.data.image_url} alt="picture" />
